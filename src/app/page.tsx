@@ -1,5 +1,6 @@
 import React from "react";
 import { Shield, RefreshCw, X, CheckCircle } from "lucide-react";
+import Link from "next/link";
 
 function App() {
   return (
@@ -17,9 +18,11 @@ function App() {
             IPs anytime, ensure deliverability, and keep your business running
             smoothly.
           </p>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-all transform hover:scale-105 cursor-pointer">
-            Start For Just $5/month
-          </button>
+          <Link href="/login">
+            <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-all transform hover:scale-105 cursor-pointer">
+              Start For Just $5/month
+            </button>
+          </Link>
         </div>
 
         {/* Stats Section */}
@@ -253,9 +256,11 @@ await transporter.sendMail({
                   Monthly billing, cancel anytime
                 </li>
               </ul>
-              <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg transition-all cursor-pointer">
-                Get Started Now
-              </button>
+              <Link href="/login">
+                <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg transition-all cursor-pointer">
+                  Get Started Now
+                </button>
+              </Link>
             </div>
           </div>
         </div>

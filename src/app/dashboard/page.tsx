@@ -250,7 +250,7 @@ export default function Page() {
                 <tbody className="divide-y divide-slate-700">
                   {proxyServers.length > 0 ? (
                     proxyServers.map((proxy) => (
-                      <tr key={proxy.id} className="hover:bg-slate-700">
+                      <tr key={proxy.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {proxy.serverIp}
                         </td>

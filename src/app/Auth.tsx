@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -62,12 +62,12 @@ export default function Auth() {
     );
   } else {
     return (
-      <button
+      <Link
+        href="/login"
         className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors cursor-pointer"
-        onClick={() => signIn("google", { redirectTo: "/dashboard" })}
       >
         Get Started
-      </button>
+      </Link>
     );
   }
 }
