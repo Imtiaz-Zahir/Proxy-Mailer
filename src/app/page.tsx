@@ -79,6 +79,65 @@ function App() {
           </div>
         </div>
 
+        <div className="py-24">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-6">
+                  Simple Integration
+                </h2>
+                <p className="text-xl text-gray-300 mb-8">
+                  Just update your Nodemailer configuration to use our proxy
+                  server. Keep your existing SMTP credentials.
+                </p>
+                <ul className="space-y-4">
+                  <li className="flex items-center text-gray-300">
+                    <CheckCircle className="w-6 h-6 text-green-400 mr-3" />
+                    No code changes required
+                  </li>
+                  <li className="flex items-center text-gray-300">
+                    <CheckCircle className="w-6 h-6 text-green-400 mr-3" />
+                    Works with any SMTP provider
+                  </li>
+                  <li className="flex items-center text-gray-300">
+                    <CheckCircle className="w-6 h-6 text-green-400 mr-3" />
+                    Secure and reliable delivery
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex space-x-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <p className="text-gray-400 text-sm">nodemailer.js</p>
+                </div>
+                <pre className="text-blue-400 font-mono text-sm whitespace-pre-wrap">
+                  {`const transporter = nodemailer.createTransport({
+  host: "proxy-smtp.imtiaz-zahir.com",
+  port: 2525,
+  secure: true,
+  auth: {
+    user: "Your SMTP Username",
+    pass: "Your SMTP Password",
+  },
+});
+
+// Send email
+await transporter.sendMail({
+  from: '"Your App" <you@example.com>',
+  to: "user@example.com",
+  subject: "Hello!",
+  text: "This email was sent through ProxyMail",
+});`}
+                </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* How It Works Section */}
         <div className="py-20 border-t border-slate-700">
           <h2 className="text-3xl font-bold text-white text-center mb-12">
@@ -202,7 +261,6 @@ function App() {
         </div>
 
         {/* Footer */}
-        
       </div>
     </div>
   );

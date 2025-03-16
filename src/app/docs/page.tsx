@@ -25,8 +25,8 @@ function Docs() {
         <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700 mb-8">
           <h2 className="text-2xl font-bold text-white mb-4">Overview</h2>
           <p className="text-gray-300 mb-4">
-            ProxyMail helps you bypass DigitalOcean&#39;s SMTP port restrictions by
-            routing your email traffic through our secure proxy servers. This
+            ProxyMail helps you bypass DigitalOcean&#39;s SMTP port restrictions
+            by routing your email traffic through our secure proxy servers. This
             guide will show you how to integrate ProxyMail with your Nodemailer
             configuration.
           </p>
@@ -173,7 +173,7 @@ function Docs() {
               <pre className="text-blue-400 font-mono text-sm whitespace-pre-wrap">
                 {`// Send test email
 await transporter.sendMail({
-  from: '&#39;Your Name&#39; <your@email.com>',
+  from: 'Your Name<your@email.com>',
   to: "recipient@email.com",
   subject: "Test Email",
   text: "If you receive this, the proxy is working!",
