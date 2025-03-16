@@ -158,8 +158,8 @@ export default function Page() {
           serverIp: formData.serverIp,
         });
 
-        if (!newProxy) {
-          alert("Failed to create proxy");
+        if (typeof newProxy === "string") {
+          alert(newProxy);
           return;
         }
 

@@ -2,14 +2,13 @@
 import React, { useState } from "react";
 import {
   Mail,
-  MapPin,
-  Phone,
   MessageSquare,
   User,
   Building2,
   Send,
   AlertCircle,
 } from "lucide-react";
+import { createMessageAction } from "@/actions/message";
 
 type FormData = {
   name: string;
@@ -68,8 +67,12 @@ function Contact() {
     setSubmitStatus(null);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const message = await createMessageAction(formData);
+
+      if (typeof message === "string") {
+        throw new Error(message);
+      }
+
       setSubmitStatus("success");
       setFormData({ name: "", company: "", email: "", message: "" });
     } catch (error) {
@@ -106,33 +109,6 @@ function Contact() {
           <div className="space-y-8">
             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
               <h2 className="text-2xl font-bold text-white mb-6">
-                Get in Touch
-              </h2>
-              <div className="space-y-4">
-                <div className="flex items-center">
-                  <MapPin className="w-5 h-5 text-blue-400 mr-3" />
-                  <span className="text-gray-300">
-                    123 Tech Street, San Francisco, CA 94105
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <Phone className="w-5 h-5 text-blue-400 mr-3" />
-                  <span className="text-gray-300">+1 (555) 123-4567</span>
-                </div>
-                <div className="flex items-center">
-                  <Mail className="w-5 h-5 text-blue-400 mr-3" />
-                  <a
-                    href="mailto:support@proxymail.com"
-                    className="text-blue-400 hover:text-blue-300"
-                  >
-                    support@proxymail.com
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
-              <h2 className="text-2xl font-bold text-white mb-6">
                 Support Hours
               </h2>
               <div className="space-y-2 text-gray-300">
@@ -149,10 +125,10 @@ function Contact() {
               <p className="text-gray-300">
                 For urgent issues outside business hours, please email:
                 <a
-                  href="mailto:support@proxymail.com"
+                  href="mailto:urgent@proxymail.com"
                   className="block text-blue-400 hover:text-blue-300 mt-2"
                 >
-                  support@proxymail.com
+                  urgent@proxymail.com
                 </a>
               </p>
             </div>

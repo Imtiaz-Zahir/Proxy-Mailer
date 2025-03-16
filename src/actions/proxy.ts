@@ -42,6 +42,10 @@ export async function createProxyAction({
   domain: string;
   port: number;
 }) {
+  if(!serverIp) return "Server IP is required";
+  if(!domain) return "Domain is required";
+  if(!port) return "Port is required";
+
   try {
     const session = await auth();
 
@@ -67,6 +71,7 @@ export async function createProxyAction({
     return proxy;
   } catch (error) {
     console.error(error);
+    return "An error occurred while creating the proxy";
   }
 }
 

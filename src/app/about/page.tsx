@@ -1,16 +1,5 @@
 import React from "react";
-import {
-  Users,
-  Globe,
-  Award,
-  Rocket,
-  Mail,
-  MapPin,
-  Phone,
-  Linkedin,
-  Github,
-  Twitter,
-} from "lucide-react";
+import { Users, Globe, Award, Rocket, Mail } from "lucide-react";
 
 function About() {
   return (
@@ -93,62 +82,6 @@ function About() {
                 <li>• Transparency in operations</li>
                 <li>• Customer success focus</li>
               </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Contact Information */}
-        <div className="mb-16">
-          <h2 className="text-2xl font-bold text-white mb-8">Get in Touch</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
-              <div className="space-y-4">
-                <div className="flex items-center">
-                  <MapPin className="w-5 h-5 text-blue-400 mr-3" />
-                  <span className="text-gray-300">
-                    123 Tech Street, San Francisco, CA 94105
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <Phone className="w-5 h-5 text-blue-400 mr-3" />
-                  <span className="text-gray-300">+1 (555) 123-4567</span>
-                </div>
-                <div className="flex items-center">
-                  <Mail className="w-5 h-5 text-blue-400 mr-3" />
-                  <a
-                    href="mailto:support@proxymail.com"
-                    className="text-blue-400 hover:text-blue-300"
-                  >
-                    support@proxymail.com
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
-              <h3 className="text-xl font-semibold text-white mb-4">
-                Follow Us
-              </h3>
-              <div className="flex space-x-4">
-                <a
-                  href="https://linkedin.com"
-                  className="text-blue-400 hover:text-blue-300"
-                >
-                  <Linkedin className="w-6 h-6" />
-                </a>
-                <a
-                  href="https://twitter.com"
-                  className="text-blue-400 hover:text-blue-300"
-                >
-                  <Twitter className="w-6 h-6" />
-                </a>
-                <a
-                  href="https://github.com"
-                  className="text-blue-400 hover:text-blue-300"
-                >
-                  <Github className="w-6 h-6" />
-                </a>
-              </div>
             </div>
           </div>
         </div>

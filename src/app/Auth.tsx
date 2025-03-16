@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +7,18 @@ import Link from "next/link";
 export default function Auth() {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      const clickHandler = () => {
+        setIsOpen(false);
+      };
+      document.addEventListener("click", clickHandler);
+      return () => {
+        document.removeEventListener("click", clickHandler);
+      };
+    }
+  }, [isOpen]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -19,7 +31,7 @@ export default function Auth() {
           {session.user?.image ? (
             <Image
               src={session.user?.image}
-              className="hover:opacity-90 transition-opacity w-7 h-7 rounded-full overflow-hidden"
+              className="hover:opacity-90 transition-opacity w-7 h-7 rounded-full overflow-hidden border border-gray-700/50"
               style={{ borderRadius: "100%" }}
               height={28}
               width={28}
@@ -33,7 +45,10 @@ export default function Auth() {
         </div>
 
         {isOpen && (
-          <div className="absolute z-10 bg-slate-800 shadow-md rounded mt-1 right-0 w-48 py-2">
+          <div
+            className="absolute z-10 bg-slate-800 shadow-md rounded mt-1 right-0 w-48 py-2"
+            onClick={() => setTimeout(() => setIsOpen(false), 300)}
+          >
             <div className="px-4 py-2 border-b">
               <p className="font-medium text-sm">
                 {session.user?.name ?? "User"}
