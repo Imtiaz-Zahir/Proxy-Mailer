@@ -1,6 +1,7 @@
 import React from "react";
 import { Globe } from "lucide-react";
 import Auth from "./Auth";
+import Link from "next/link";
 
 export default function Nav() {
   return (
@@ -12,7 +13,12 @@ export default function Nav() {
             <span className="ml-2 text-xl font-bold text-white">ProxyMail</span>
           </div>
 
-          <Auth />
+          <div className="flex items-center gap-4">
+            <Link href="/docs" className="text-lg font-medium">
+              Docs
+            </Link>
+            <Auth />
+          </div>
         </div>
       </div>
     </nav>

@@ -183,10 +183,10 @@ export default function Page() {
     }
   };
 
-  const handleDelete = (id: string) => {
-    // Consider adding confirmation dialog and loading state for delete as well
-    setProxyServers(proxyServers.filter((proxy) => proxy.id !== id));
-  };
+  // const handleDelete = (id: string) => {
+  //   // Consider adding confirmation dialog and loading state for delete as well
+  //   setProxyServers(proxyServers.filter((proxy) => proxy.id !== id));
+  // };
 
   const handleEdit = (proxy: Proxy) => {
     setFormData({
@@ -262,20 +262,12 @@ export default function Page() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {proxy.subscriptionEndAt ? (
-                            <div className="flex space-x-2">
-                              <button
-                                onClick={() => handleEdit(proxy)}
-                                className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded transition-colors cursor-pointer"
-                              >
-                                Edit
-                              </button>
-                              <button
-                                onClick={() => handleDelete(proxy.id)}
-                                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition-colors cursor-pointer"
-                              >
-                                Delete
-                              </button>
-                            </div>
+                            <button
+                              onClick={() => handleEdit(proxy)}
+                              className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded transition-colors cursor-pointer"
+                            >
+                              Edit
+                            </button>
                           ) : (
                             <button
                               onClick={() => handelPayment(proxy.id)}

@@ -19,7 +19,7 @@ export default function Auth() {
           {session.user?.image ? (
             <Image
               src={session.user?.image}
-              className="hover:opacity-90 transition-opacity"
+              className="hover:opacity-90 transition-opacity w-7 h-7 rounded-full overflow-hidden"
               style={{ borderRadius: "100%" }}
               height={28}
               width={28}
