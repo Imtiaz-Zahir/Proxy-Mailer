@@ -6,6 +6,7 @@ import {
   updateProxyAction,
 } from "@/actions/proxy";
 import { getPaymentURL } from "@/actions/stripe";
+import Link from "next/link";
 
 type Proxy = {
   id: string;
@@ -295,6 +296,40 @@ export default function Page() {
             )}
           </div>
         </div>
+        <div className="mt-6 bg-slate-800 rounded-lg shadow-lg p-4">
+          <div className="flex items-start">
+            <div className="flex-shrink-0 mt-0.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-blue-500"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9a1 1 0 00-1-1z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-gray-300">
+                Need help setting up?
+              </h3>
+              <p className="mt-1 text-sm text-gray-400">
+                Check our{" "}
+                <Link
+                  href="/docs"
+                  className="text-blue-500 hover:text-blue-400 underline"
+                >
+                  documentation page
+                </Link>{" "}
+                for detailed instructions on setting up Nodemailer with our
+                proxy service.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Modal for adding/editing proxy servers */}
@@ -309,7 +344,7 @@ export default function Page() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Server IP
+                  Your Server or Droplet IP
                 </label>
                 <input
                   type="text"
@@ -342,7 +377,7 @@ export default function Page() {
                       ? "border-red-500"
                       : "border-slate-600"
                   } focus:border-blue-500 focus:outline-none`}
-                  placeholder="mail.example.com"
+                  placeholder="smtp.gmail.com"
                   disabled={isLoading}
                 />
                 {formErrors.mailServerDomain && (
@@ -365,7 +400,7 @@ export default function Page() {
                       ? "border-red-500"
                       : "border-slate-600"
                   } focus:border-blue-500 focus:outline-none`}
-                  placeholder="587"
+                  placeholder="465"
                   disabled={isLoading}
                 />
                 {formErrors.mailServerPort && (
