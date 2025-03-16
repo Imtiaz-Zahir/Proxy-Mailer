@@ -116,10 +116,10 @@ function About() {
                 <div className="flex items-center">
                   <Mail className="w-5 h-5 text-blue-400 mr-3" />
                   <a
-                    href="mailto:contact@proxymail.com"
+                    href="mailto:support@proxymail.com"
                     className="text-blue-400 hover:text-blue-300"
                   >
-                    contact@proxymail.com
+                    support@proxymail.com
                   </a>
                 </div>
               </div>
@@ -151,21 +151,6 @@ function About() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Join Us Section */}
-        <div className="bg-slate-800/50 p-8 rounded-xl border border-slate-700 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Join Our Team</h2>
-          <p className="text-gray-300 mb-6">
-            We&apos;re always looking for talented individuals to join our mission of
-            revolutionizing email delivery.
-          </p>
-          <a
-            href="mailto:careers@proxymail.com"
-            className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg transition-all transform hover:scale-105"
-          >
-            View Open Positions
-          </a>
         </div>
       </div>
     </div>

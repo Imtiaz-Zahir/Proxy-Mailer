@@ -122,10 +122,10 @@ function Contact() {
                 <div className="flex items-center">
                   <Mail className="w-5 h-5 text-blue-400 mr-3" />
                   <a
-                    href="mailto:contact@proxymail.com"
+                    href="mailto:support@proxymail.com"
                     className="text-blue-400 hover:text-blue-300"
                   >
-                    contact@proxymail.com
+                    support@proxymail.com
                   </a>
                 </div>
               </div>
@@ -149,10 +149,10 @@ function Contact() {
               <p className="text-gray-300">
                 For urgent issues outside business hours, please email:
                 <a
-                  href="mailto:urgent@proxymail.com"
+                  href="mailto:support@proxymail.com"
                   className="block text-blue-400 hover:text-blue-300 mt-2"
                 >
-                  urgent@proxymail.com
+                  support@proxymail.com
                 </a>
               </p>
             </div>

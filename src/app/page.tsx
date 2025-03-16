@@ -119,8 +119,8 @@ function App() {
                 </div>
                 <pre className="text-blue-400 font-mono text-sm whitespace-pre-wrap">
                   {`const transporter = nodemailer.createTransport({
-  host: "proxy-smtp.imtiaz-zahir.com",
-  port: 2525,
+  host: "send.proxymailer.online",
+  port: 4065,
   secure: true,
   auth: {
     user: "Your SMTP Username",

@@ -154,8 +154,8 @@ function Terms() {
               <p className="text-gray-300">
                 For any questions regarding these terms, please contact our legal team at:
               </p>
-              <a href="mailto:legal@proxymail.com" className="text-blue-400 hover:text-blue-300 mt-2 block">
-                legal@proxymail.com
+              <a href="mailto:support@proxymail.com" className="text-blue-400 hover:text-blue-300 mt-2 block">
+                support@proxymail.com
               </a>
             </div>
           </section>

@@ -132,10 +132,10 @@ function Privacy() {
                 handle your data, please contact our Data Protection Officer at:
               </p>
               <a
-                href="mailto:privacy@proxymail.com"
+                href="mailto:support@proxymail.com"
                 className="text-blue-400 hover:text-blue-300 mt-2 block"
               >
-                privacy@proxymail.com
+                support@proxymail.com
               </a>
             </div>
           </section>

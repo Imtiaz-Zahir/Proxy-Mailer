@@ -45,7 +45,7 @@ function Docs() {
           <div className="space-y-4">
             <div className="flex items-center space-x-4 text-gray-300">
               <Server className="w-6 h-6 text-blue-400 flex-shrink-0" />
-              <p>Your application connects to our proxy server on port 2525</p>
+              <p>Your application connects to our proxy server on port 4065</p>
             </div>
             <div className="flex items-center justify-center my-4">
               <ArrowRight className="w-6 h-6 text-blue-400" />
@@ -131,8 +131,8 @@ function Docs() {
                 </div>
                 <pre className="text-blue-400 font-mono text-sm whitespace-pre-wrap">
                   {`const transporter = nodemailer.createTransport({
-  host: "proxy-smtp.imtiaz-zahir.com",
-  port: 2525,
+  host: "send.proxymailer.online",
+  port: 4065,
   secure: true,
   auth: {
     user: "Your SMTP Username",
@@ -154,7 +154,7 @@ function Docs() {
                 </li>
                 <li>
                   Update <span className="text-blue-400 font-mono">port</span>{" "}
-                  to 2525
+                  to 4065
                 </li>
                 <li>Keep your original SMTP credentials</li>
               </ul>
@@ -197,7 +197,7 @@ await transporter.sendMail({
                 </h3>
                 <p className="text-gray-300">
                   If you can&#39;t connect, verify your firewall allows outbound
-                  connections to port 2525.
+                  connections to port 4065.
                 </p>
               </div>
             </div>

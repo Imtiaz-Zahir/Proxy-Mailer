@@ -1,4 +1,4 @@
-import { Globe } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -7,11 +7,10 @@ export default function Footer() {
     <footer className="py-12 border-t border-slate-700 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid md:grid-cols-4 gap-8">
         <div>
-          <div className="flex items-center mb-4">
-            <Globe className="w-6 h-6 text-blue-400" />
-            <span className="ml-2 text-lg font-bold text-white">ProxyMail</span>
-          </div>
-          <p className="text-gray-400">
+          <Link href="/">
+            <Image src="/logo.png" alt="Proxy Mailer" width={150} height={45} />
+          </Link>
+          <p className="text-gray-400 mt-4">
             Reliable email delivery for your business
           </p>
         </div>
