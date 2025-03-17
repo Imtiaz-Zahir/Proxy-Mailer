@@ -44,6 +44,7 @@ export default function Page() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isPaymentLoading, setIsPaymentLoading] = useState("");
 
   useEffect(() => {
     const fetchProxies = async () => {
@@ -115,15 +116,23 @@ export default function Page() {
   };
 
   async function handelPayment(proxyId: string) {
+    if (isPaymentLoading) return;
+    setIsPaymentLoading(proxyId);
+
     const paymentLink = await getPaymentURL({
       proxyId,
       cancelUrl: window.location.href,
       successUrl: window.location.href,
     });
 
+    setIsPaymentLoading("");
+
     if (paymentLink) {
-      window.location.href = paymentLink;
+      window.open(paymentLink, "_blank");
+      return;
     }
+
+    alert("Something want wrong. Please try again later.");
   }
 
   const handleAddOrUpdateProxy = async () => {
@@ -274,7 +283,9 @@ export default function Page() {
                               onClick={() => handelPayment(proxy.id)}
                               className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded transition-colors cursor-pointer"
                             >
-                              Complete Payment
+                              {isPaymentLoading
+                                ? "Processing..."
+                                : "Complete Payment"}
                             </button>
                           )}
                         </td>
@@ -334,7 +345,7 @@ export default function Page() {
 
       {/* Modal for adding/editing proxy servers */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-slate-800 rounded-lg shadow-xl max-w-md w-full p-6">
             <h3 className="text-xl font-semibold mb-4">
               {editingId !== null

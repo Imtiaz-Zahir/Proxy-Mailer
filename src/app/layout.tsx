@@ -4,6 +4,7 @@ import "./globals.css";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import { SessionProvider } from "next-auth/react";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,7 +18,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Proxy Mailer",
-  description: "Proxy Mailer bypasses DigitalOcean's SMTP block, enabling seamless email delivery with Nodemailer.",
+  description:
+    "Proxy Mailer bypasses DigitalOcean's SMTP block, enabling seamless email delivery with Nodemailer.",
 };
 
 export default function RootLayout({
@@ -36,6 +38,7 @@ export default function RootLayout({
           <Footer />
         </body>
       </SessionProvider>
+      <Analytics />
     </html>
   );
 }
