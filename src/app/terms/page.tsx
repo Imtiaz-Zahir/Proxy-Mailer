@@ -144,8 +144,8 @@ function Terms() {
                     <div className="mt-4 p-4 bg-blue-500/10 rounded-lg">
                       <p className="text-sm">
                         To request a refund, please contact our support team at{" "}
-                        <a href="mailto:support@proxymail.com" className="text-blue-400 hover:text-blue-300">
-                          support@proxymail.com
+                        <a href="mailto:support@proxymailer.online" className="text-blue-400 hover:text-blue-300">
+                          support@proxymailer.online
                         </a>
                         {" "}with your account details and reason for the refund.
                       </p>
@@ -186,8 +186,8 @@ function Terms() {
               <p className="text-gray-300">
                 For any questions regarding these terms, please contact our legal team at:
               </p>
-              <a href="mailto:support@proxymail.com" className="text-blue-400 hover:text-blue-300 mt-2 block">
-                support@proxymail.com
+              <a href="mailto:support@proxymailer.online" className="text-blue-400 hover:text-blue-300 mt-2 block">
+                support@proxymailer.online
               </a>
             </div>
           </section>

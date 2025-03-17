@@ -151,8 +151,8 @@ function Security() {
               <p className="text-gray-300">
                 If you discover a security vulnerability, please report it immediately to our security team:
               </p>
-              <a href="mailto:support@proxymail.com" className="text-blue-400 hover:text-blue-300 mt-2 block">
-                support@proxymail.com
+              <a href="mailto:support@proxymailer.online" className="text-blue-400 hover:text-blue-300 mt-2 block">
+                support@proxymailer.online
               </a>
               <p className="text-gray-400 mt-4">
                 We take all security reports seriously and will respond within 24 hours.

@@ -218,10 +218,10 @@ await transporter.sendMail({
             <p className="text-gray-300">
               Need help? Contact our support team at{" "}
               <a
-                href="mailto:support@proxymail.com"
+                href="mailto:support@proxymailer.online"
                 className="text-blue-400 hover:text-blue-300"
               >
-                support@proxymail.com
+                support@proxymailer.online
               </a>
             </p>
           </div>

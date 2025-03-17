@@ -125,10 +125,10 @@ function Contact() {
               <p className="text-gray-300">
                 For urgent issues outside business hours, please email:
                 <a
-                  href="mailto:urgent@proxymail.com"
+                  href="mailto:support@proxymailer.online"
                   className="block text-blue-400 hover:text-blue-300 mt-2"
                 >
-                  urgent@proxymail.com
+                  support@proxymailer.online
                 </a>
               </p>
             </div>
