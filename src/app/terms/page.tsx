@@ -1,5 +1,5 @@
 import React from "react";
-import { Scale, AlertCircle, ShieldCheck, Gavel } from "lucide-react";
+import { Scale, AlertCircle, ShieldCheck, Gavel, RefreshCw } from "lucide-react";
 
 function Terms() {
   return (
@@ -116,10 +116,42 @@ function Terms() {
                 <p>4.1. Subscription fees are billed monthly in advance</p>
                 <p>4.2. Payment Terms:</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>All fees are non-refundable</li>
+                  <li>All fees are non-refundable except as specified in our Refund Policy</li>
                   <li>Service may be suspended for non-payment</li>
                   <li>Price changes will be notified 30 days in advance</li>
                 </ul>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-bold text-white mb-4">4.3. Refund Policy</h2>
+            <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+              <div className="space-y-4 text-gray-300">
+                <div className="flex items-start space-x-4">
+                  <div className="bg-blue-500/10 p-3 rounded-lg">
+                    <RefreshCw className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="mb-4">We offer a 7-day refund window for your most recent payment:</p>
+                    <ul className="list-disc pl-6 space-y-2">
+                      <li>Refund requests must be submitted within 7 days of your last payment</li>
+                      <li>Only your most recent payment is eligible for a refund</li>
+                      <li>Refunds will be processed using the original payment method</li>
+                      <li>Processing time may take 5-10 business days depending on your payment provider</li>
+                      <li>Service access will be terminated upon refund approval</li>
+                    </ul>
+                    <div className="mt-4 p-4 bg-blue-500/10 rounded-lg">
+                      <p className="text-sm">
+                        To request a refund, please contact our support team at{" "}
+                        <a href="mailto:support@proxymail.com" className="text-blue-400 hover:text-blue-300">
+                          support@proxymail.com
+                        </a>
+                        {" "}with your account details and reason for the refund.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
