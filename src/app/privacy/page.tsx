@@ -7,9 +7,9 @@ function Privacy() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-white mb-4">Privacy Policy</h1>
+          <h1 className="text-4xl font-bold text-white mb-4">Proxy Mailer Privacy Policy</h1>
           <p className="text-xl text-gray-300">
-            Your privacy is our top priority. Learn how we protect your data.
+            Your privacy is Proxy Mailer&apos;s top priority. Learn how we protect your data.
           </p>
         </div>
 
@@ -23,7 +23,7 @@ function Privacy() {
               Data Security
             </h3>
             <p className="text-gray-300">
-              We employ industry-standard encryption and security measures to
+              Proxy Mailer employs industry-standard encryption and security measures to
               protect your data and email communications.
             </p>
           </div>
@@ -36,7 +36,7 @@ function Privacy() {
               No Data Sharing
             </h3>
             <p className="text-gray-300">
-              We never sell, rent, or share your personal information with third
+              Proxy Mailer never sells, rents, or shares your personal information with third
               parties for marketing purposes.
             </p>
           </div>
@@ -49,7 +49,7 @@ function Privacy() {
               Data Transparency
             </h3>
             <p className="text-gray-300">
-              You have full visibility into what data we collect and how it&apos;s
+              You have full visibility into what data Proxy Mailer collects and how it&apos;s
               used to provide our services.
             </p>
           </div>
@@ -63,7 +63,7 @@ function Privacy() {
             </h3>
             <p className="text-gray-300">
               Access, modify, or delete your personal data at any time through
-              your account settings.
+              your Proxy Mailer account settings.
             </p>
           </div>
         </div>
@@ -76,7 +76,7 @@ function Privacy() {
             </h2>
             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
               <ul className="space-y-4 text-gray-300">
-                <li>• Account information (email address, password hash)</li>
+                <li>• Proxy Mailer account information (email address, password hash)</li>
                 <li>• Proxy server configurations and settings</li>
                 <li>• Usage statistics and performance metrics</li>
                 <li>
@@ -97,7 +97,7 @@ function Privacy() {
             </h2>
             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
               <ul className="space-y-4 text-gray-300">
-                <li>• Providing and maintaining our proxy service</li>
+                <li>• Providing and maintaining Proxy Mailer&apos;s proxy service</li>
                 <li>• Processing your transactions</li>
                 <li>• Sending service updates and administrative messages</li>
                 <li>• Improving our services and user experience</li>
@@ -112,7 +112,7 @@ function Privacy() {
             </h2>
             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
               <p className="text-gray-300 mb-4">
-                We retain your personal information only for as long as
+                Proxy Mailer retains your personal information only for as long as
                 necessary to:
               </p>
               <ul className="space-y-4 text-gray-300">
@@ -128,7 +128,7 @@ function Privacy() {
             <h2 className="text-2xl font-bold text-white mb-4">Contact Us</h2>
             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
               <p className="text-gray-300">
-                If you have any questions about our Privacy Policy or how we
+                If you have any questions about Proxy Mailer&apos;s Privacy Policy or how we
                 handle your data, please contact our Data Protection Officer at:
               </p>
               <a
@@ -146,7 +146,7 @@ function Privacy() {
             </h2>
             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
               <p className="text-gray-300">
-                We may update this Privacy Policy from time to time. We will
+                Proxy Mailer may update this Privacy Policy from time to time. We will
                 notify you of any changes by posting the new Privacy Policy on
                 this page and updating the &quot;Last Updated&quot; date below.
               </p>
