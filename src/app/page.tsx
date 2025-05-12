@@ -1,6 +1,7 @@
 import React from "react";
 import { Shield, RefreshCw, X, CheckCircle } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
           </p>
           <Link href="/login">
             <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-all transform hover:scale-105 cursor-pointer">
-              Start For Just $5/month
+              Start For Just $10/month
             </button>
           </Link>
         </div>
@@ -187,10 +188,12 @@ await transporter.sendMail({
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
               <div className="flex items-start mb-4">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                   alt="Customer"
                   className="w-12 h-12 rounded-full mr-4"
+                  width={48}
+                  height={48}
                 />
                 <div>
                   <h4 className="text-white font-semibold">John Doe</h4>
@@ -204,10 +207,12 @@ await transporter.sendMail({
             </div>
             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
               <div className="flex items-start mb-4">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                   alt="Customer"
                   className="w-12 h-12 rounded-full mr-4"
+                  width={48}
+                  height={48}
                 />
                 <div>
                   <h4 className="text-white font-semibold">Jane Smith</h4>
@@ -231,7 +236,7 @@ await transporter.sendMail({
                 Simple Pricing
               </h2>
               <div className="flex items-center justify-center mb-6">
-                <span className="text-5xl font-bold text-white">$5</span>
+                <span className="text-5xl font-bold text-white">$10</span>
                 <span className="text-gray-400 ml-2">/month per IP</span>
               </div>
               <ul className="text-left space-y-4 mb-8">

@@ -6,7 +6,7 @@ function Pricing() {
   const tiers = [
     {
       name: "Starter",
-      price: 5,
+      price: 10,
       description: "Perfect for small businesses and startups",
       features: [
         "1 IP Address",

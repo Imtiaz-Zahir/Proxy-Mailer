@@ -5,8 +5,9 @@ import {
   getProxiesAction,
   updateProxyAction,
 } from "@/actions/proxy";
-import { getPaymentURL } from "@/actions/stripe";
 import Link from "next/link";
+import { Check, Shield } from "lucide-react";
+import { initializePaddle, Paddle } from "@paddle/paddle-js";
 
 type Proxy = {
   id: string;
@@ -19,7 +20,6 @@ type Proxy = {
   updatedAt: Date;
 };
 
-// Define a separate interface for the form data to match the actual fields used
 interface FormData {
   serverIp: string;
   mailServerDomain: string;
@@ -34,6 +34,7 @@ interface FormErrors {
 
 export default function Page() {
   const [showModal, setShowModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [proxyServers, setProxyServers] = useState<Proxy[]>([]);
   const [formData, setFormData] = useState<FormData>({
     serverIp: "",
@@ -44,13 +45,23 @@ export default function Page() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
-  const [isPaymentLoading, setIsPaymentLoading] = useState("");
+  const [currentProxyId, setCurrentProxyId] = useState("");
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [paddle, setPaddle] = useState<Paddle | null>(null);
+  const [paddleError, setPaddleError] = useState("");
+  const [paddleLoading, setPaddleLoading] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
     const fetchProxies = async () => {
       try {
         const proxies = await getProxiesAction();
-        if (proxies) setProxyServers(proxies);
+        if (proxies) {
+          setProxyServers(proxies);
+          if (proxies.length > 0) {
+            setUserEmail(proxies[0].userEmail);
+          }
+        }
       } catch (error) {
         console.error("Failed to fetch proxies:", error);
       } finally {
@@ -59,6 +70,50 @@ export default function Page() {
     };
 
     fetchProxies();
+
+    // Initialize Paddle
+    try {
+      const clientToken = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN;
+      if (!clientToken) {
+        throw new Error(
+          "Missing NEXT_PUBLIC_PADDLE_CLIENT_TOKEN environment variable"
+        );
+      }
+
+      const paddleEnvironment = process.env.NEXT_PUBLIC_PADDLE_ENVIRONMENT;
+      if (!paddleEnvironment) {
+        throw new Error(
+          "Missing NEXT_PUBLIC_PADDLE_ENVIRONMENT environment variable"
+        );
+      }
+
+      setPaddleLoading(true);
+      initializePaddle({
+        token: clientToken,
+        environment:
+          paddleEnvironment === "production" ? "production" : "sandbox",
+      }).then((paddleInstance) => {
+        if (!paddleInstance) {
+          throw new Error(
+            "Failed to initialize Paddle. Please try again later."
+          );
+        }
+
+        setPaddle(paddleInstance);
+        setPaddleLoading(false);
+      });
+    } catch (error) {
+      console.error(error);
+      setPaddleError("Failed to initialize payment system. Please try again later.");
+      setPaddleLoading(false);
+    }
+
+    // Check for success parameter in URL
+    const currentUrl = window.location.href;
+    if (currentUrl.includes("success=true")) {
+      setPaymentSuccess(true);
+      setTimeout(() => window.location.reload(), 5000);
+    }
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +123,6 @@ export default function Page() {
       [name]: value,
     });
 
-    // Clear error for this field when user types
     if (formErrors[name as keyof FormErrors]) {
       setFormErrors({
         ...formErrors,
@@ -80,7 +134,6 @@ export default function Page() {
   const validateForm = (): boolean => {
     const errors: FormErrors = {};
 
-    // Validate Server IP (basic IPv4 validation)
     if (!formData.serverIp) {
       errors.serverIp = "Server IP is required";
     } else {
@@ -90,7 +143,6 @@ export default function Page() {
       }
     }
 
-    // Validate Mail Server Domain
     if (!formData.mailServerDomain) {
       errors.mailServerDomain = "Mail server domain is required";
     } else {
@@ -101,7 +153,6 @@ export default function Page() {
       }
     }
 
-    // Validate Mail Server Port
     if (!formData.mailServerPort) {
       errors.mailServerPort = "Mail server port is required";
     } else {
@@ -115,25 +166,54 @@ export default function Page() {
     return Object.keys(errors).length === 0;
   };
 
-  async function handelPayment(proxyId: string) {
-    if (isPaymentLoading) return;
-    setIsPaymentLoading(proxyId);
-
-    const paymentLink = await getPaymentURL({
-      proxyId,
-      cancelUrl: window.location.href,
-      successUrl: window.location.href,
-    });
-
-    setIsPaymentLoading("");
-
-    if (paymentLink) {
-      window.open(paymentLink, "_blank");
-      return;
-    }
-
-    alert("Something want wrong. Please try again later.");
+  async function handlePayment(proxyId: string) {
+    if (paddleLoading) return;
+    
+    setCurrentProxyId(proxyId);
+    setShowPaymentModal(true);
   }
+
+  const processPayment = async () => {
+    try {
+      setPaddleLoading(true);
+
+      if (!paddle) {
+        setPaddleError("Payment system is not ready. Please try again.");
+        setPaddleLoading(false);
+        return;
+      }
+
+      const priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID;
+      if (!priceId) {
+        setPaddleError("Missing payment configuration. Please contact support.");
+        setPaddleLoading(false);
+        return;
+      }
+
+      paddle.Checkout.open({
+        items: [
+          {
+            priceId,
+            quantity: 1,
+          },
+        ],
+        customData: {
+          proxyId: currentProxyId,
+        },
+        customer: {
+          email: userEmail,
+        },
+        settings: {
+          successUrl: `${window.location.origin}?success=true`,
+          theme: "dark",
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      setPaddleError("Failed to open payment form. Please try again later.");
+      setPaddleLoading(false);
+    }
+  };
 
   const handleAddOrUpdateProxy = async () => {
     if (!validateForm()) {
@@ -173,11 +253,9 @@ export default function Page() {
         }
 
         setProxyServers([...proxyServers, newProxy]);
-
-        await handelPayment(newProxy.id);
+        await handlePayment(newProxy.id);
       }
 
-      // Reset form and close modal
       setFormData({ serverIp: "", mailServerDomain: "", mailServerPort: "" });
       setShowModal(false);
       setEditingId(null);
@@ -192,11 +270,6 @@ export default function Page() {
       setIsLoading(false);
     }
   };
-
-  // const handleDelete = (id: string) => {
-  //   // Consider adding confirmation dialog and loading state for delete as well
-  //   setProxyServers(proxyServers.filter((proxy) => proxy.id !== id));
-  // };
 
   const handleEdit = (proxy: Proxy) => {
     setFormData({
@@ -216,6 +289,11 @@ export default function Page() {
     setShowModal(true);
   };
 
+  const closePaymentModal = () => {
+    setShowPaymentModal(false);
+    setPaddleError("");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white p-6">
       <div className="max-w-6xl mx-auto">
@@ -231,7 +309,21 @@ export default function Page() {
           </button>
         </div>
 
-        {/* Table of proxy servers */}
+        {paymentSuccess && (
+          <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 mb-6">
+            <div className="flex items-center">
+              <Check className="h-5 w-5 text-green-400 mr-2" />
+              <div>
+                <h3 className="font-medium text-green-400">Payment Successful!</h3>
+                <p className="text-sm text-green-300">
+                  Your proxy server will be activated shortly. This page will reload in a few seconds.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Proxy Servers Table */}
         <div className="bg-slate-800 rounded-lg shadow-lg overflow-hidden">
           <div className="overflow-x-auto">
             {isInitialLoading ? (
@@ -260,7 +352,7 @@ export default function Page() {
                 <tbody className="divide-y divide-slate-700">
                   {proxyServers.length > 0 ? (
                     proxyServers.map((proxy) => (
-                      <tr key={proxy.id}>
+                      <tr key={proxy.id} className="hover:bg-slate-750">
                         <td className="px-6 py-4 whitespace-nowrap">
                           {proxy.serverIp}
                         </td>
@@ -270,20 +362,21 @@ export default function Page() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           {proxy.port}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="px-6 py-4 whitespace-nowrap space-x-2">
                           {proxy.subscriptionEndAt ? (
                             <button
                               onClick={() => handleEdit(proxy)}
-                              className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded transition-colors cursor-pointer"
+                              className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded transition-colors cursor-pointer text-sm"
                             >
                               Edit
                             </button>
                           ) : (
                             <button
-                              onClick={() => handelPayment(proxy.id)}
-                              className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded transition-colors cursor-pointer"
+                              onClick={() => handlePayment(proxy.id)}
+                              className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded transition-colors cursor-pointer text-sm"
+                              disabled={paddleLoading && currentProxyId === proxy.id}
                             >
-                              {isPaymentLoading
+                              {paddleLoading && currentProxyId === proxy.id
                                 ? "Processing..."
                                 : "Complete Payment"}
                             </button>
@@ -297,8 +390,7 @@ export default function Page() {
                         colSpan={4}
                         className="px-6 py-4 text-center text-gray-400"
                       >
-                        No proxy servers found. Click &quot;Add New Proxy&quot;
-                        to add one.
+                        No proxy servers found. Click &quot;Add New Proxy&quot; to add one.
                       </td>
                     </tr>
                   )}
@@ -307,6 +399,8 @@ export default function Page() {
             )}
           </div>
         </div>
+
+        {/* Help Section */}
         <div className="mt-6 bg-slate-800 rounded-lg shadow-lg p-4">
           <div className="flex items-start">
             <div className="flex-shrink-0 mt-0.5">
@@ -343,14 +437,12 @@ export default function Page() {
         </div>
       </div>
 
-      {/* Modal for adding/editing proxy servers */}
+      {/* Add/Edit Proxy Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-slate-800 rounded-lg shadow-xl max-w-md w-full p-6">
             <h3 className="text-xl font-semibold mb-4">
-              {editingId !== null
-                ? "Edit Proxy Server"
-                : "Add New Proxy Server"}
+              {editingId ? "Edit Proxy Server" : "Add New Proxy Server"}
             </h3>
             <div className="space-y-4">
               <div>
@@ -440,12 +532,123 @@ export default function Page() {
                   )}
                   {isLoading
                     ? "Processing..."
-                    : editingId !== null
+                    : editingId
                     ? "Update"
                     : "Add"}
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Payment Modal */}
+      {showPaymentModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-800 rounded-lg shadow-xl max-w-md w-full p-6">
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-medium text-white">
+                Complete Your Payment
+              </h2>
+              <p className="text-gray-400 text-sm mt-1">
+                Subscription required to activate your proxy
+              </p>
+            </div>
+
+            <div className="border border-gray-800 bg-gray-900/50 rounded-lg shadow-md p-4 mb-4">
+              <div className="flex justify-between items-center pb-2">
+                <div>
+                  <h3 className="text-white text-lg font-medium">Proxy Plan</h3>
+                  <p className="text-gray-400 text-sm">$10/month</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="col-span-2 md:col-span-1">
+                  <ul className="space-y-2">
+                    <li className="flex items-center text-sm">
+                      <Check className="h-4 w-4 mr-2 text-cyan-400" />
+                      <span className="text-gray-300">Unlimited tunnels</span>
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <Check className="h-4 w-4 mr-2 text-cyan-400" />
+                      <span className="text-gray-300">Custom subdomains</span>
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <Check className="h-4 w-4 mr-2 text-cyan-400" />
+                      <span className="text-gray-300">Free SSL certificates</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-span-2 md:col-span-1">
+                  <ul className="space-y-2">
+                    <li className="flex items-center text-sm">
+                      <Check className="h-4 w-4 mr-2 text-cyan-400" />
+                      <span className="text-gray-300">Multi-port support</span>
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <Check className="h-4 w-4 mr-2 text-cyan-400" />
+                      <span className="text-gray-300">Web dashboard</span>
+                    </li>
+                    <li className="flex items-center text-sm">
+                      <Check className="h-4 w-4 mr-2 text-cyan-400" />
+                      <span className="text-gray-300">Priority support</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {paddleError ? (
+                <div className="mb-4">
+                  <p className="text-red-400 text-sm mb-2">{paddleError}</p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-2 px-4 rounded cursor-pointer"
+                  >
+                    Try Again
+                  </button>
+                </div>
+              ) : !paddle ? (
+                <div className="flex justify-center py-4">
+                  <div className="inline-block h-6 w-6 animate-spin rounded-full border-3 border-solid border-cyan-400 border-r-transparent"></div>
+                </div>
+              ) : (
+                <button
+                  onClick={processPayment}
+                  className="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-2 px-4 rounded cursor-pointer flex items-center justify-center"
+                  disabled={paddleLoading}
+                >
+                  {paddleLoading ? (
+                    <>
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-r-transparent mr-2"></div>
+                      <span>Processing...</span>
+                    </>
+                  ) : (
+                    "Subscribe Now"
+                  )}
+                </button>
+              )}
+
+              <div className="flex items-center justify-center space-x-4 mt-4 text-xs text-gray-400">
+                <div className="flex items-center">
+                  <Shield className="h-3 w-3 mr-1 text-cyan-400" />
+                  <span>Secure Payment</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={closePaymentModal}
+                className="text-sm text-gray-400 hover:text-white transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+
+            <p className="text-xs text-center text-gray-400 mt-4">
+              Need help? Contact us at support@proxymailer.online
+            </p>
           </div>
         </div>
       )}

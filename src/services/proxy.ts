@@ -32,7 +32,7 @@ export function updateProxy(
     domain?: string;
     port?: number;
     serverIp?: string;
-    subscriptionEndAt?: Date;
+    subscriptionEndAt?: Date | null;
   }
 ) {
   return prisma.proxies.update({
