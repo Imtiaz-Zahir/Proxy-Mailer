@@ -64,15 +64,15 @@ async function handelWebhookEvent(eventData: SubscriptionEvents) {
 
     if (
       typeof eventData.data.customData !== "object" ||
-      !("linkId" in eventData.data.customData) ||
-      typeof eventData.data.customData.linkId !== "string"
+      !("proxyId" in eventData.data.customData) ||
+      typeof eventData.data.customData.proxyId !== "string"
     ) {
-      throw new Error("linkId not found in customData");
+      throw new Error("proxyId not found in customData");
     }
 
-    const linkId = eventData.data.customData?.linkId;
+    const proxyId = eventData.data.customData?.proxyId;
 
-    await updateProxy(linkId, {
+    await updateProxy(proxyId, {
       subscriptionEndAt: eventData.data.currentBillingPeriod?.endsAt
         ? new Date(eventData.data.currentBillingPeriod?.endsAt)
         : null,
