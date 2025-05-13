@@ -54,36 +54,30 @@ async function handelWebhookEvent(eventData: SubscriptionEvents) {
   const eventProductId = eventData.data.items[0].product?.id;
 
   if (eventProductId !== paddleProductId) {
-    return NextResponse.json({ error: "Product id mismatch" }, { status: 400 });
-  }
-
-  if (!eventData.data.customData) {
-    return NextResponse.json(
-      { error: "Custom Data not found" },
-      { status: 400 }
+    console.error(
+      `Product id mismatch: ${eventProductId} !== ${paddleProductId}`
     );
+  } else {
+    if (!eventData.data.customData) {
+      throw new Error("Custom Data missing");
+    }
+
+    if (
+      typeof eventData.data.customData !== "object" ||
+      !("linkId" in eventData.data.customData) ||
+      typeof eventData.data.customData.linkId !== "string"
+    ) {
+      throw new Error("linkId not found in customData");
+    }
+
+    const linkId = eventData.data.customData?.linkId;
+
+    await updateProxy(linkId, {
+      subscriptionEndAt: eventData.data.currentBillingPeriod?.endsAt
+        ? new Date(eventData.data.currentBillingPeriod?.endsAt)
+        : null,
+    });
   }
-
-  if (
-    typeof eventData.data.customData !== "object" ||
-    !("proxyId" in eventData.data.customData) ||
-    typeof eventData.data.customData.proxyId !== "string"
-  ) {
-    return NextResponse.json(
-      {
-        error: "proxyId not found",
-      },
-      { status: 400 }
-    );
-  }
-
-  const proxyId = eventData.data.customData?.proxyId;
-
-  await updateProxy(proxyId, {
-    subscriptionEndAt: eventData.data.currentBillingPeriod?.endsAt
-      ? new Date(eventData.data.currentBillingPeriod?.endsAt)
-      : null,
-  });
 }
 
 const subscriptionEvents = [
@@ -101,15 +95,12 @@ const subscriptionEvents = [
 export async function POST(req: Request) {
   const signature = req.headers.get("paddle-signature") || "";
   if (!signature) {
-    return NextResponse.json({ error: "Signature missing" }, { status: 400 });
+    throw new Error("Signature missing");
   }
 
   const rawRequestBody = (await req.text()) || "";
   if (!rawRequestBody) {
-    return NextResponse.json(
-      { error: "Raw request body missing" },
-      { status: 400 }
-    );
+    throw new Error("Request body missing");
   }
 
   try {
@@ -125,16 +116,11 @@ export async function POST(req: Request) {
     );
 
     if (!eventData) {
-      return NextResponse.json(
-        { error: "Event data missing" },
-        { status: 400 }
-      );
+      throw new Error("Event data missing");
     }
 
     if (subscriptionEvents.includes(eventData.eventType)) {
-      if (subscriptionEvents.includes(eventData.eventType)) {
-        await handelWebhookEvent(eventData as SubscriptionEvents);
-      }
+      await handelWebhookEvent(eventData as SubscriptionEvents);
     } else {
       throw new Error(
         "Unhandled webhook request type : " + eventData.eventType
@@ -142,6 +128,10 @@ export async function POST(req: Request) {
     }
   } catch (e) {
     console.error(e);
+    if (e instanceof Error) {
+      return NextResponse.json({ error: e.message }, { status: 400 });
+    }
+
     return NextResponse.json({ error: "Unhandled Error" }, { status: 400 });
   }
 
