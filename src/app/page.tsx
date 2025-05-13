@@ -189,7 +189,7 @@ await transporter.sendMail({
             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
               <div className="flex items-start mb-4">
                 <Image
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src="/woman.avif"
                   alt="Customer"
                   className="w-12 h-12 rounded-full mr-4"
                   width={48}
@@ -208,7 +208,7 @@ await transporter.sendMail({
             <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
               <div className="flex items-start mb-4">
                 <Image
-                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src="/man.avif"
                   alt="Customer"
                   className="w-12 h-12 rounded-full mr-4"
                   width={48}
