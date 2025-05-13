@@ -6,7 +6,6 @@ import {
   updateProxyAction,
 } from "@/actions/proxy";
 import Link from "next/link";
-import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type Proxy = {
@@ -45,7 +44,6 @@ export default function Page() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   useEffect(() => {
     const fetchProxies = async () => {
@@ -211,20 +209,6 @@ export default function Page() {
             Add New Proxy
           </button>
         </div>
-
-        {paymentSuccess && (
-          <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 mb-6">
-            <div className="flex items-center">
-              <Check className="h-5 w-5 text-green-400 mr-2" />
-              <div>
-                <h3 className="font-medium text-green-400">Payment Successful!</h3>
-                <p className="text-sm text-green-300">
-                  Your proxy server will be activated shortly. This page will reload in a few seconds.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Proxy Servers Table */}
         <div className="bg-slate-800 rounded-lg shadow-lg overflow-hidden">
