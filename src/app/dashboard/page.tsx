@@ -6,7 +6,6 @@ import {
   updateProxyAction,
 } from "@/actions/proxy";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 type Proxy = {
   id: string;
@@ -32,7 +31,6 @@ interface FormErrors {
 }
 
 export default function Page() {
-  const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [proxyServers, setProxyServers] = useState<Proxy[]>([]);
   const [formData, setFormData] = useState<FormData>({
@@ -113,7 +111,7 @@ export default function Page() {
   };
 
   const redirectToPayment = (proxyId: string) => {
-    router.push(`https://www.sarv.live/proxy?id=${proxyId}`);
+    window.open(`https://www.sarv.live/proxy?id=${proxyId}`, "_blank", "noopener,noreferrer");
   };
 
   const handleAddOrUpdateProxy = async () => {

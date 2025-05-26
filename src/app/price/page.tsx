@@ -49,9 +49,7 @@ function Pricing() {
                   <span className="text-gray-400 ml-2">/month</span>
                 </div>
                 <Link href="/login">
-                  <button
-                    className={`w-full bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 py-3 rounded-lg transition-all`}
-                  >
+                  <button className="w-full bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 py-3 rounded-lg transition-all cursor-pointer">
                     Get Started
                   </button>
                 </Link>
