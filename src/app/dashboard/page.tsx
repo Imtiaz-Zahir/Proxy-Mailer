@@ -91,7 +91,7 @@ export default function Page() {
       errors.mailServerDomain = "Mail server domain is required";
     } else {
       const domainPattern =
-        /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/;
+        /^(?=.{1,253}$)(?!-)[a-zA-Z0-9-]{1,63}(?<!-)(\.(?!-)[a-zA-Z0-9-]{1,63}(?<!-))+$/;
       if (!domainPattern.test(formData.mailServerDomain)) {
         errors.mailServerDomain = "Invalid domain format";
       }
@@ -111,7 +111,11 @@ export default function Page() {
   };
 
   const redirectToPayment = (proxyId: string) => {
-    window.open(`https://www.sarv.live/proxy?id=${proxyId}`, "_blank", "noopener,noreferrer");
+    window.open(
+      `https://www.sarv.live/proxy?id=${proxyId}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
   };
 
   const handleAddOrUpdateProxy = async () => {
@@ -154,7 +158,7 @@ export default function Page() {
         setProxyServers([...proxyServers, newProxy]);
         setShowModal(false);
         setFormData({ serverIp: "", mailServerDomain: "", mailServerPort: "" });
-        
+
         // Redirect to payment page
         redirectToPayment(newProxy.id);
         return;
@@ -272,7 +276,8 @@ export default function Page() {
                         colSpan={4}
                         className="px-6 py-4 text-center text-gray-400"
                       >
-                        No proxy servers found. Click &quot;Add New Proxy&quot; to add one.
+                        No proxy servers found. Click &quot;Add New Proxy&quot;
+                        to add one.
                       </td>
                     </tr>
                   )}
@@ -412,11 +417,7 @@ export default function Page() {
                       <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                     </span>
                   )}
-                  {isLoading
-                    ? "Processing..."
-                    : editingId
-                    ? "Update"
-                    : "Add"}
+                  {isLoading ? "Processing..." : editingId ? "Update" : "Add"}
                 </button>
               </div>
             </div>
