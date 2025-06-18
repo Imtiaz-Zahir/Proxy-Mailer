@@ -103,7 +103,7 @@ function Docs() {
                 </div>
                 <pre className="text-blue-400 font-mono text-sm whitespace-pre-wrap">
                   {`const transporter = nodemailer.createTransport({
-  host: "smtp.google.com",
+  host: "smtp.gmail.com",
   port: 465,
   secure: true,
   auth: {

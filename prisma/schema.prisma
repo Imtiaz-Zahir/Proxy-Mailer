@@ -21,6 +21,7 @@ model Proxies {
   port              Int
   userEmail         String
   subscriptionEndAt DateTime?
+  connected         Boolean   @default(false)
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 }
