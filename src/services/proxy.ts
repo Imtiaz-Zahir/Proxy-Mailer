@@ -44,3 +44,7 @@ export function updateProxy(
 export function getProxyById(proxyId: string) {
   return prisma.proxies.findUnique({ where: { id: proxyId } });
 }
+
+export function getProxyByIP(serverIp: string) {
+  return prisma.proxies.findFirst({ where: { serverIp } });
+}

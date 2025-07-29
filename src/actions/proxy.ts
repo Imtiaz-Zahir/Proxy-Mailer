@@ -4,6 +4,7 @@ import {
   createProxy,
   getProxies,
   getProxyById,
+  getProxyByIP,
   updateProxy,
 } from "@/services/proxy";
 import { getUsersByEmail } from "@/services/user";
@@ -42,9 +43,9 @@ export async function createProxyAction({
   domain: string;
   port: number;
 }) {
-  if(!serverIp) return "Server IP is required";
-  if(!domain) return "Domain is required";
-  if(!port) return "Port is required";
+  if (!serverIp) return "Server IP is required";
+  if (!domain) return "Domain is required";
+  if (!port) return "Port is required";
 
   try {
     const session = await auth();
@@ -59,6 +60,16 @@ export async function createProxyAction({
     if (!user) {
       signOut();
       redirect("/");
+    }
+
+    const existingProxies = await getProxyByIP(serverIp);
+
+    if (existingProxies) {
+      return "Proxy with this IP already exists";
+    }
+
+    if (port < 1 || port > 65535) {
+      return "Port must be between 1 and 65535";
     }
 
     const proxy = await createProxy({
