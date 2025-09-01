@@ -1,4 +1,4 @@
-import { updateProxy } from "@/services/proxy";
+import { getProxyById, updateProxy } from "@/services/proxy";
 import {
   Environment,
   EventName,
@@ -72,11 +72,15 @@ async function handelWebhookEvent(eventData: SubscriptionEvents) {
 
     const proxyId = eventData.data.customData?.proxyId;
 
-    await updateProxy(proxyId, {
-      subscriptionEndAt: eventData.data.currentBillingPeriod?.endsAt
-        ? new Date(eventData.data.currentBillingPeriod?.endsAt)
-        : null,
-    });
+    const proxy = await getProxyById(proxyId);
+
+    if (proxy) {
+      await updateProxy(proxyId, {
+        subscriptionEndAt: eventData.data.currentBillingPeriod?.endsAt
+          ? new Date(eventData.data.currentBillingPeriod?.endsAt)
+          : null,
+      });
+    }
   }
 }
 
