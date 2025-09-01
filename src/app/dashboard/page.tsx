@@ -252,7 +252,8 @@ export default function Page() {
                           {proxy.port}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap space-x-2">
-                          {proxy.subscriptionEndAt ? (
+                          {proxy.subscriptionEndAt &&
+                          Date.now() < proxy.subscriptionEndAt.getTime() ? (
                             <button
                               onClick={() => handleEdit(proxy)}
                               className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded transition-colors cursor-pointer text-sm"
