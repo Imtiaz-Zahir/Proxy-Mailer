@@ -48,3 +48,7 @@ export function getProxyById(proxyId: string) {
 export function getProxyByIP(serverIp: string) {
   return prisma.proxies.findFirst({ where: { serverIp } });
 }
+
+export function deleteProxy(proxyId: string) {
+  return prisma.proxies.delete({ where: { id: proxyId } });
+}

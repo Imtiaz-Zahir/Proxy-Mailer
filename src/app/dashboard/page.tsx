@@ -6,6 +6,7 @@ import {
   updateProxyAction,
 } from "@/actions/proxy";
 import Link from "next/link";
+import DeleteButton from "./DeleteButton";
 
 type Proxy = {
   id: string;
@@ -268,6 +269,14 @@ export default function Page() {
                               Complete Payment
                             </button>
                           )}
+                          <DeleteButton
+                            proxy={proxy}
+                            onDeleteSuccess={(deletedId) => {
+                              setProxyServers((prev) =>
+                                prev.filter((p) => p.id !== deletedId)
+                              );
+                            }}
+                          />
                         </td>
                       </tr>
                     ))

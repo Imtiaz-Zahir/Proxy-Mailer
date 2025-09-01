@@ -2,6 +2,7 @@
 import { auth, signOut } from "@/auth";
 import {
   createProxy,
+  deleteProxy,
   getProxies,
   getProxyById,
   getProxyByIP,
@@ -133,5 +134,40 @@ export async function updateProxyAction(
   } catch (error) {
     console.error(error);
     return "An error occurred while updating the proxy";
+  }
+}
+
+export async function deleteProxyAction(proxyId: string) {
+  try {
+    const session = await auth();
+
+    if (!session?.user?.email) {
+      signOut();
+      redirect("/");
+    }
+
+    const user = await getUsersByEmail(session.user?.email);
+
+    if (!user) {
+      signOut();
+      redirect("/");
+    }
+
+    const proxy = await getProxyById(proxyId);
+
+    if (!proxy) {
+      return "Proxy not found";
+    }
+
+    if (proxy.userEmail !== user.email) {
+      return "You do not have permission to delete this proxy";
+    }
+
+    await deleteProxy(proxyId);
+
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return "An error occurred while deleting the proxy";
   }
 }
