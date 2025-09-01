@@ -21,7 +21,7 @@ function App() {
           </p>
           <Link href="/login">
             <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg text-lg transition-all transform hover:scale-105 cursor-pointer">
-              Start For Just $10/month
+              Start For Just $25/month
             </button>
           </Link>
         </div>
@@ -236,7 +236,7 @@ await transporter.sendMail({
                 Simple Pricing
               </h2>
               <div className="flex items-center justify-center mb-6">
-                <span className="text-5xl font-bold text-white">$10</span>
+                <span className="text-5xl font-bold text-white">$25</span>
                 <span className="text-gray-400 ml-2">/month per IP</span>
               </div>
               <ul className="text-left space-y-4 mb-8">
